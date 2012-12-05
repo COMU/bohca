@@ -1,4 +1,6 @@
-mport sys
+import sys
+import subprocess
+import os	
 from PyQt4 import QtGui, QtCore 
 from PyQt4.QtGui import QDialog, QApplication, QPushButton, QLineEdit, QFormLayout,QSystemTrayIcon
 
@@ -9,8 +11,8 @@ class Example(QtGui.QWidget):
 
     def initUI(self):               
         self.icon=QSystemTrayIcon()
-        r=self.icon.isSystemTrayAvailable()
-        print r 
+       # r=self.icon.isSystemTrayAvailable()
+        #print r 
         self.icon.setIcon( QtGui.QIcon('/home/mehtap/Desktop/QT/icon/Flock_icon.png') )
         self.icon.show()
         self.icon.setVisible(True)
@@ -26,9 +28,16 @@ class Example(QtGui.QWidget):
        # self.show()
      
     def showDialog(self):
-          fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
-                '/home')
-          
+         # fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file',
+          #      '/home') 
+          #dosya="bohca"
+         # subprocess.call(('xdg-open', dosya))
+         # if sys.platform == 'linux2':
+              # file="bohca"
+           #  subprocess.call(["xdg-open", file])
+         # else:
+          #     os.startfile(file)
+         os.system("xdg-open /home/mehtap/Desktop/bohca/")
     def closeEvent(self, event):
 
 
@@ -49,5 +58,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+
+
 
 
