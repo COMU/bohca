@@ -50,7 +50,11 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         observer.join()
     def showFiles(self):
         
-         os.system("xdg-open /home/mehtap/Desktop/bohca/")
+        if sys.platform == 'linux2':
+  
+                     os.system("xdg-open /home/mehtap/Desktop/bohca/")
+        else:
+                     os.startfile("/home/mehtap/Dekstop/bohca/")
 
     def close(self):
       
