@@ -1,9 +1,9 @@
 import time
-from pygit2 import Repository, Signature, utils
+from pygit2 import Repository, Signature, utils, Reference
 
 # lookup head 
 repo = Repository('test')
-head = repo.lookup_reference('HEAD').resolve()
+head = repo.lookup_reference('kancer/bohca/test')
 commit = repo[head.oid]
 tree = commit.tree
 
