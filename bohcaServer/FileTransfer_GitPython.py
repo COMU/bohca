@@ -5,7 +5,13 @@ repo = Repo("/home/kancer/bohca/")
 assert repo.bare == False
 
 select_repo = str(raw_input("Enter repo name:"))
-test_remote = repo.create_remote(select_repo,'git@github.com:COMU/bohca.git') # create repo
+depo_register_file = open("/home/kancer/bohca/.git/config","r")
+dizi = depo_register_file.readlines()
+
+if  '[remote "'+select_repo+'"]\n' in dizi:
+	logging.info("this repo have been created. enter new repo name!")
+else:
+		test_remote = repo.create_remote(select_repo,'git@github.com:COMU/bohca.git') # create repo
 
 current_index = os.getcwd
 path = current_index + "/.git"
@@ -13,12 +19,6 @@ print(path)
 
 os.chdir(path) #change working directory
 file_config = open("config","r")
-
-###############################
-#while #eof kontrolü yap
-#	file_config.readline()
-	#depo ismini ara
-
 
 def exit_program():
         print "exit the program"
