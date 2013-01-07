@@ -26,11 +26,11 @@ while True:
         
 	file_name = raw_input("Enter the file name:")
         if file_name:
+		#dosyanin var olup olmadiginin kontrolu
         	try:
                 	f = open(file_name, "r")
                         logging.warn('file was found')
                         
-			#dosyanin var olup olmadiginin kontrolu
 			logging.basicConfig(format='%(message)s %(filename)s', level=logging.DEBUG)
                         path = os.path.abspath(file_name)
                         flag = os.path.isfile(path)
