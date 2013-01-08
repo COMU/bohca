@@ -5,14 +5,41 @@ repo = Repo("/home/kancer/bohca/")
 assert repo.bare == False
 
 select_repo = str(raw_input("Enter repo name:"))
-depo_register_file = open("/home/kancer/bohca/.git/config","r")
-dizi = depo_register_file.readlines()
 
-if  '[remote "'+select_repo+'"]\n' in dizi:
-	logging.basicConfig(format='%(message)s', level=logging.DEBUG)
-	logging.info("this repo have been created. if you want create new repo, you must enter new repo name!")
-else:
-	test_remote = repo.create_remote(select_repo,'git@github.com:COMU/bohca.git') # create repo
+def check_repo():
+        if  '[remote "'+select_repo+'"]\n' in dizi:
+                if repo_is_empty() == True:
+                        logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+                        logging.info("this repo have been created.")
+                        choose = str(raw_input("if you want create new repo enter(C/c) or you can pass"))
+                        if choose == "C" | choose == "c":
+                                select_repo = str(raw_input("Enter repo name:"))
+                                check_repo()
+                        cloned_repo = repo.clone("/home/kancer/"+select_repo)
+                else:
+                        logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+                        logging.info("this repo is not empyt. please select another repo!")
+                        select_repo = str(raw_input("Enter repo name:"))
+                        check_repo()
+        else:
+                logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+                logging.info("the name of repo is"+"'"+select_repo+"'"+"which is created")
+                test_remote = repo.create_remote(select_repo,'git@github.com:COMU/bohca.git') # create repo
+                cloned_repo = repo.clone("/home/kancer/"+select_repo)
+
+check_repo()
+
+def repo_is_empty():
+#klasor ici bos mu degil mi kontrolu
+	direc_inc = os.listdir("/home/kancer"+select_repo)
+	print direc_inc
+	if direc_inc == " ":
+		return True
+	else:
+		return False
+
+repo_register_file = open("/home/kancer/bohca/.git/config","r")
+dizi = repo_register_file.readlines()
 
 def exit_program():
         print "exit the program"
@@ -43,7 +70,6 @@ while True:
 								
 			 logging.basicConfig(format='%(message)s %(filename)s', level=logging.DEBUG)
 		 	 logging.info('created new file the name of '+"'"+file_name+"'")
-			 exit_program()
 
 		index = select_repo.index
         	file_add = index.add([file_name])
@@ -59,8 +85,7 @@ while True:
         	d.push()
 
         	print "references: %s" %ref
-
         	file_name.close()
-	
+		exit_program()
         else:
         	logging.warn('Please specify the file name!')
