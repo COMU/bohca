@@ -11,6 +11,7 @@ from watchdog.events import LoggingEventHandler
 
 project_home_dir = "/home/mehtap/bohca"
 log_file = project_home_dir + "/bohca.log"
+log_file_copy = project_home_dir + "/bohcacopy.log"
 icon_path= project_home_dir + "/icons/Flock_icon.png"
 workspace_path = "/home/mehtap/Desktop/bohca/"
 
@@ -34,32 +35,44 @@ def Notification():
                            format = '%(asctime)s - %(message)s-',
                            datefmt = '%Y-%m-%d %H:%M:%S' )
     
+        
+ 
     event_handler = LoggingEventHandler()
     observer = Observer()
     observer.schedule(event_handler, workspace_path , recursive=True)
     observer.start()
     try:
        while True:
-         time.sleep(1)
-         file = open ( log_file, "r" )
-         loglines = file.readlines()
-  
+       # time.sleep(1)
+             file = open ( log_file, "r" )
+             loglines = file.readlines()
+         
+         #copy_file = open(log_file_copy, "r")
+         #copy_loglines = copy_file.readlines()
+         
+             loglines_without_swp = []
+             dizi = []
 
-         loglines_without_swp = []
+             for line in loglines:
+                 if line.split("\n")[0][-4:] == "swp-":
+                     pass
+                 else :
+                     loglines_without_swp.append(line.split("\n")[0])
+                     dizi.append(loglines_without_swp) 
+             if dizi != loglines_without_swp:
+       
+                 notification = loglines_without_swp[-1].split(" ", 3)[-1]
+                 pynotify.init("uyari mesaji")
+                 msg = pynotify.Notification (notification)
 
-
-         for line in loglines:
-             if line.split("\n")[0][-4:] == "swp-":
+                 msg.show()
+             else:
                  pass
-             else :
-                 loglines_without_swp.append(line.split("\n")[0])
-         print loglines_without_swp
-         notification = loglines_without_swp[-1].split(" ", 3)[-1]
-         pynotify.init("uyari mesaji")
-         msg = pynotify.Notification (notification)
-
-         msg.show()
-
+             copy_file = open(log_file_copy,"w")
+             copy_file.writelines(file.readlines())
+             copy_file.close()
+               
+             file.close()    
     except KeyboardInterrupt:
             observer.stop()
             observer.join()
