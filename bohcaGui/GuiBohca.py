@@ -42,7 +42,7 @@ def Notification():
     observer.schedule(event_handler, workspace_path , recursive=True)
     observer.start()
     try:
-       #while True:
+       while True:
        # time.sleep(1)
              file = open ( log_file, "r" )
              loglines = file.readlines()
