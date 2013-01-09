@@ -1,7 +1,8 @@
 import os, sys, logging
 from git import *
- 
-repo = Repo("/home/kancer/bohca/")
+
+current_path = os.environ["HOME"]
+repo = Repo(current_path+"/bohca")
 assert repo.bare == False
 
 select_repo = str(raw_input("Enter repo name:"))
