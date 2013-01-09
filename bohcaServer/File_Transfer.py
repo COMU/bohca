@@ -39,8 +39,8 @@ while True:
                                 	logging.basicConfig(format='%(message)s', level=logging.DEBUG)
                                 	logging.info("this repo have been created. you must choose another repo name!")
                                 	continue
-
-                	cloned_repo = repo.clone("/home/kancer/"+select_repo)
+			
+                #	cloned_repo = repo.clone(current_path+"/"+select_repo)
         	else:
                 	logging.basicConfig(format='%(message)s', level=logging.DEBUG)
                 	logging.info("this repo is not empty. please select another repo!")
@@ -49,7 +49,7 @@ while True:
         	logging.basicConfig(format='%(message)s', level=logging.DEBUG)
         	logging.info("the name of repo is "+"'"+select_repo+"'"+" is created")
         	test_remote = repo.create_remote(select_repo,'git@github.com:COMU/bohca.git') # create repo
-        	cloned_repo = repo.clone("/home/kancer/"+select_repo)   
+        #	cloned_repo = repo.clone(current_path+"/"+select_repo)   
 	
 	
 	commit_message = raw_input("Enter your commit message: ")
@@ -57,7 +57,7 @@ while True:
         if file_name:
                 #dosyanin var olup olmadiginin kontrolu
                 try:
-                        f = open(file_name, "r")
+                        f = open(current_path+"/bohca/"+file_name, "r")
                         logging.warn('file was found')
 
                         logging.basicConfig(format='%(message)s %(filename)s', level=logging.DEBUG)
