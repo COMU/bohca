@@ -22,9 +22,11 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         menu = QtGui.QMenu(parent)
         exitAction = menu.addAction("Exit System")
         exitAction.activated.connect(self.close)
-
+        
         self.setContextMenu(menu)
-      
+        #uyari()
+        #print "tamam" 
+        #Notification()
     def close(self):
         sys.exit()
 
@@ -33,9 +35,7 @@ def Notification():
         
     logging.basicConfig(filename = log_file ,level = logging.INFO,
                            format = '%(asctime)s - %(message)s-',
-                           datefmt = '%Y-%m-%d %H:%M:%S' )
-    
-        
+                           datefmt = '%Y-%m-%d %H:%M:%S' )   
  
     event_handler = LoggingEventHandler()
     observer = Observer()
@@ -43,36 +43,10 @@ def Notification():
     observer.start()
     try:
        while True:
-       # time.sleep(1)
-             file = open ( log_file, "r" )
-             loglines = file.readlines()
-         
-         #copy_file = open(log_file_copy, "r")
-         #copy_loglines = copy_file.readlines()
-         
-             loglines_without_swp = []
-             dizi = []
-
-             for line in loglines:
-                 if line.split("\n")[0][-4:] == "swp-":
-                     pass
-                 else :
-                     loglines_without_swp.append(line.split("\n")[0])
-                     dizi.append(loglines_without_swp) 
-             if dizi != loglines_without_swp:
-       
-                 notification = loglines_without_swp[-1].split(" ", 3)[-1]
-                 pynotify.init("uyari mesaji")
-                 msg = pynotify.Notification (notification)
-
-                 msg.show()
-             else:
-                 pass
-             copy_file = open(log_file_copy,"w")
-             copy_file.writelines(file.readlines())
-             copy_file.close()
+             time.sleep(2)
+             uyari()
+           
                
-             file.close()    
     except KeyboardInterrupt:
             observer.stop()
             observer.join()
@@ -92,7 +66,47 @@ def Notification():
 #    msg = pynotify.Notification (notification)
 #    
 #    msg.show()
+def uyari():
+             file = open ( log_file, "r" )
+             loglines = file.readlines()
 
+         ##copy_file = open(log_file_copy, "r")
+         ##copy_loglines = copy_file.readlines()
+
+             loglines_without_swp = []
+             dizi = []
+             msg_dizisi = []
+             #kontrol_dizi = []
+             for line in loglines:
+                 if line.split("\n")[0][-4:] == "swp-":
+                     pass
+                 else :
+                     loglines_without_swp.append(line.split("\n")[0])
+                     dizi.append(loglines_without_swp[-1])
+             for i in dizi:
+                if i != loglines_without_swp[-1]:
+                     notification = loglines_without_swp[-1].split(" ", 3)[-1] 
+                     pynotify.init("uyari mesaji")
+                     msg = pynotify.Notification (notification)
+                     msg_dizisi.append(msg)
+                     for j in msg_dizisi:
+                         if msg != j:
+                            msg.show()
+                            file.close()
+                         else:
+                            pass
+                #else:
+                  #   pass
+                else:
+                      pass
+            #copy_file = open(log_file_copy,"w")
+             #copy_file.writelines(file.readlines())
+
+          #   #copy_file.close()
+          #    
+             #file.close()
+
+                         
 
 def main():
    #uygulama icin widget olusturma
@@ -102,6 +116,7 @@ def main():
    trayIcon = SystemTrayIcon(QtGui.QIcon(icon_path),app_widget)
    trayIcon.show() 
    Notification()
+   #uyari()
    #trayIcon.show()
    sys.exit(app.exec_())
    
