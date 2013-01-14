@@ -1,6 +1,7 @@
 import os, sys, logging
 from git import *
- 
+
+
 class GitHandler:
 	
 	def __init__(self):
@@ -8,10 +9,8 @@ class GitHandler:
 		self.file_path = current_path+"/bohca" # file is created in this path 
 		repo = Repo(current_path+"/bohca")
 		assert repo.bare == False
-		
-		self.file_name = raw_input("Enter the file name:")
-
-		self.origin = repo.remotes.origin  #	
+		self.file_name = "file.txt" #file name is static.
+		self.origin = repo.remotes.origin  	
 	
 	# to exit the program
 	def exit_program(self):
@@ -42,7 +41,7 @@ class GitHandler:
 		else:
 			logging.warn('please specify the file name!')
 
-	
+		
 if __name__ == "__main__":
 	git_handler = GitHandler()
 	git_handler.push_file()
