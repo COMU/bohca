@@ -1,9 +1,6 @@
 import os, sys, logging
 from git import *
 
-#dolu depoya kayit ekleyebilmeliyim. 86 satirda hata bak
-#branch ekleme istegini sormam lazim. ayni adimlari barnch icinde yapman gerekiyor sanirim.!!
-
 current_path = os.environ["HOME"]
 repo = Repo(current_path+"/bohca")
 assert repo.bare == False
@@ -52,18 +49,7 @@ def choose_file():
 		
 		origin =repo.remotes.origin
 		origin.push(file_name)
-		
-       #         new_commit = index.commit(commit_message)
     		origin.push(commit_message)
-
-#                devel = repo.remotes.devel # get default remote by name
-#                ref = devel.refs
-#                d = devel.name
-#                d.fetch()
-#                d.pull()
-#                d.push()
-
-        #        print "references: %s" %ref
 
         else:
                 logging.warn('Please specify the file name!')
@@ -102,21 +88,5 @@ while True:
         	logging.basicConfig(format='%(message)s', level=logging.DEBUG)
         	logging.info("the name of repo is "+"'"+select_remote+"'"+" is created")
         	test_remote = repo.create_remote(select_remote,'git@github.com:COMU/bohca.git') # create repo   
-################################
-#branch olusturma istegini sorgula
-#	select_branch = str(raw_input("Enter branch name:"))
-#	if select_branch == " " or select_branch == "":
-#		choose_file()
-#		break
-#	else:
-#		new_branch = repo.create_head(select_branch)
-#		repo.head.reference = new_branch
-#		check = str(raw_input("if you checkout other branch enter (B/b)"))
-#     		if check == "B" or check == "b":
-#			git = repo.git
-#			git.checkout('head' , b = new_branch)
-#			git.for_each_ref()
-#		choose_file()
-#
 
 exit_program()
