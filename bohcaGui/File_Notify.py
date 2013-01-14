@@ -1,4 +1,3 @@
-import glob
 import sys
 import os
 import time
@@ -12,29 +11,50 @@ class MyEventHandler(FileSystemEventHandler):
 
     def catch_all_handler(self, event):
         logging.debug(event)
-        
+
     def on_moved(self, event):
         self.catch_all_handler(event)
-       
+        
+        file = event.src_path.split(".spx")
+        
+        if not pynotify.init("icon-summary-body"):
+           sys.exit(1)
+        msg = pynotify.Notification(
+                         "Notification",
+                         file[0] + "dosyanin ismi degisti",
+                         "notification-message-im")
+        msg.show()
     def on_created(self, event):
         self.catch_all_handler(event)
-    def on_deleted(self, event):
-        self.catch_all_handler(event)
-    def on_modified(self, event):
-        self.catch_all_handler(event)
-        notification = event.src_path
-        pynotify.init("uyari")
-        msg = pynotify.Notification(notification)
+        file = event.src_path.split(".spx")
+
+        if not pynotify.init("icon-summary-body"):
+           sys.exit(1)
+        msg = pynotify.Notification(
+                         "Notification",
+                         file[0] + " "+"isimli dosya yeni olusturuldu",
+                         "notification-message-im")
         msg.show()
 
+    def on_deleted(self, event):
+        file = event.src_path.split(".spx")
+        if not pynotify.init("icon-summary-bady"):
+              sys.exit(1)
+        msg = pynotify.Notification(
+                         "Notification",
+                         file[0] + "silindi",
+                         "notification-message-im")
+        msg.show() 
+       
+
+    def on_modified(self, event):
+        self.catch_all_handler(event)
+
+        
 def main():
   logging.basicConfig(level=logging.DEBUG)
-                     #format='%(asctime)s - %(message)s',
-                      #     datefmt='%Y-%m-%d %H:%M:%S')
-
  
-#logging.basicConfig(level=logging.INFO)
-  path="/home/mehtap/Desktop/bohca/"
+  path=os.getenv('HOME')+'/Bohca'
   event_handler = MyEventHandler()
   observer = Observer()
   observer.schedule(event_handler, path, recursive=True)
