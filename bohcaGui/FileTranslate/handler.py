@@ -8,7 +8,7 @@ class GitHandler:
 	def __init__(self):
 		current_path = os.environ['HOME'] 
 		 
-		repo = Repo(current_path+'/github/bohca')
+		repo = Repo(current_path+'/BOHCA/bohca')
 		assert repo.bare == False
 		
 
