@@ -7,7 +7,7 @@ from watchdog.events import LoggingEventHandler
 import pynotify
 from watchdog.events import FileSystemEventHandler
 from FileTranslate.handler import *
-from messages import *
+#from messages import *
 class MyEventHandler(FileSystemEventHandler):
 
     def __init__(self):
@@ -46,11 +46,11 @@ class MyEventHandler(FileSystemEventHandler):
                          dosya + " "+"isimli dosya yeni olusturuldu",
                          "notification-message-im")
            msg.show()
-           gonderilen = os.getenv('HOME')+'/github/bohca'+'/'+dosya
+           gonderilen = dosya
            print gonderilen 
 	   self.git_handler.push_file(gonderilen)
            print "calisiyor"
-           self.git_handler.exit_program()
+           #self.git_handler.exit_program()
     def on_deleted(self, event):
         f = []
 
@@ -67,7 +67,7 @@ class MyEventHandler(FileSystemEventHandler):
                          dosya + " "+"isimli dosya silindi",
                          "notification-message-im")
            msg.show()
-           gonderilen = os.getenv('HOME')+'/github/bohca'+'/'+dosya
+           gonderilen = dosya
 
 
     def on_modified(self, event):
@@ -77,7 +77,7 @@ class MyEventHandler(FileSystemEventHandler):
 def main():
   logging.basicConfig(level=logging.DEBUG)
  
-  path=os.getenv('HOME')+'/github/bohca'
+  path=os.getenv('HOME')+"/BOHCA/bohca"
   event_handler = MyEventHandler()
   observer = Observer()
   observer.schedule(event_handler, path, recursive=True)
