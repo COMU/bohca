@@ -6,8 +6,12 @@ from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
 import pynotify
 from watchdog.events import FileSystemEventHandler
-
+from FileTranslate.handler import *
+from messages import *
 class MyEventHandler(FileSystemEventHandler):
+
+    def __init__(self):
+	self.git_handler = GitHandler()
 
     def catch_all_handler(self, event):
         logging.debug(event)
@@ -15,37 +19,56 @@ class MyEventHandler(FileSystemEventHandler):
     def on_moved(self, event):
         self.catch_all_handler(event)
         
-        file = event.src_path.split(".spx")
+        f = event.src_path.split(".spx")
         
         if not pynotify.init("icon-summary-body"):
            sys.exit(1)
         msg = pynotify.Notification(
                          "Notification",
-                         file[0] + "dosyanin ismi degisti",
+                         f[0] + "dosyanin ismi degisti",
                          "notification-message-im")
         msg.show()
     def on_created(self, event):
         self.catch_all_handler(event)
-        file = event.src_path.split(".spx")
-
-        if not pynotify.init("icon-summary-body"):
-           sys.exit(1)
-        msg = pynotify.Notification(
+        #f = event.src_path.split(".spx")
+        f = []
+        
+        f = event.src_path.split('/')
+        
+        dosya = f.pop()
+        if dosya[0] != ".":
+             
+           if not pynotify.init("icon-summary-body"):
+               sys.exit(1)
+        
+           msg = pynotify.Notification(
                          "Notification",
-                         file[0] + " "+"isimli dosya yeni olusturuldu",
+                         dosya + " "+"isimli dosya yeni olusturuldu",
                          "notification-message-im")
-        msg.show()
-
+           msg.show()
+           gonderilen = os.getenv('HOME')+'/github/bohca'+'/'+dosya
+           print gonderilen 
+	   self.git_handler.push_file(gonderilen)
+           print "calisiyor"
+           self.git_handler.exit_program()
     def on_deleted(self, event):
-        file = event.src_path.split(".spx")
-        if not pynotify.init("icon-summary-bady"):
-              sys.exit(1)
-        msg = pynotify.Notification(
+        f = []
+
+        f = event.src_path.split('/')
+
+        dosya = f.pop()
+        if dosya[0] != ".":
+
+           if not pynotify.init("icon-summary-body"):
+               sys.exit(1)
+
+           msg = pynotify.Notification(
                          "Notification",
-                         file[0] + "silindi",
+                         dosya + " "+"isimli dosya silindi",
                          "notification-message-im")
-        msg.show() 
-       
+           msg.show()
+           gonderilen = os.getenv('HOME')+'/github/bohca'+'/'+dosya
+
 
     def on_modified(self, event):
         self.catch_all_handler(event)
@@ -54,7 +77,7 @@ class MyEventHandler(FileSystemEventHandler):
 def main():
   logging.basicConfig(level=logging.DEBUG)
  
-  path=os.getenv('HOME')+'/Bohca'
+  path=os.getenv('HOME')+'/github/bohca'
   event_handler = MyEventHandler()
   observer = Observer()
   observer.schedule(event_handler, path, recursive=True)
