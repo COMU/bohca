@@ -1,9 +1,9 @@
 import sys, os
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QSystemTrayIcon
+import subprocess
 
-
-project_path = os.getenv('HOME')+'/bohca'
+project_path = os.getenv('HOME')+'/Bohca'
 icon_path= project_path + "/icons/Flock_icon.png"
 
 
@@ -22,7 +22,18 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
        
        
         self.setContextMenu(menu)
-        
+        if sys.platform == 'linux2':
+ 
+  	       file=project_path
+               if os.path.isdir(file):
+                  #  os.mkdir(file+"/icons")
+                    subprocess.call(["xdg-open", file])
+               else:
+                    os.mkdir(file)
+                    os.mkdir(file+"/icons")
+                    subprocess.call(["xdg-open", file])
+        else:
+               os.startfile(file)
 
     #exit actioninin cagirdigi fonksiyon
     def close(self):
@@ -38,7 +49,8 @@ def main():
 
     #trayicona bir simge verme
     trayIcon = SystemTrayIcon(QtGui.QIcon(icon_path),app_widget)
-    trayIcon.show()  
+    trayIcon.show() 
+    print "a0" 
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
