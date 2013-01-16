@@ -1,34 +1,31 @@
 import os, sys, logging
 from git import *
-
-
  
 class GitHandler:
 	
 	def __init__(self):
+		
 		current_path = os.environ['HOME'] 
 		 
-		repo = Repo(current_path+'/BOHCA/bohca')
-		assert repo.bare == False
-		
+		self.repo = Repo(current_path+'/bohca')
+		assert self.repo.bare == False
+		self.origin = self.repo.remotes.origin  	
+		self.index = self.repo.index
 
-		self.origin = repo.remotes.origin  	
-	
-	# to exit the program
-	def exit_program(self):
-        	print "exit the program"
-        	print "Good Bye"
-        	sys.exit()
-
-	def push_file(self, file_path, commit_message="gonderildi"):
+	def push_file(self, file_name, commit_message="gonderildi"):
 
 		#file and commit message is pushed here
 		
-		self.origin.push(file_path)
-		self.origin.push(commit_message)
+		self.index.add([file_name])
+		new_commit = self.index.commit(commit_message)
+			
+		o = self.repo.remotes.origin
+		o.fetch()
+		o.pull()
+		o.push()
+		
+		print "exit the program .Good Bye!"
+		sys.exit()		
 
-	
 if __name__ == "__main__":
 	git_handler = GitHandler()
-        
-        	
