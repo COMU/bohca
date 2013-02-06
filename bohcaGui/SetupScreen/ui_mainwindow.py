@@ -2,12 +2,12 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Feb  5 18:46:34 2013
+# Created: Wed Feb  6 18:26:35 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui, QtCore
+from PyQt4 import QtCore, QtGui
 import sys, os, subprocess
 
 try:
@@ -20,23 +20,24 @@ default_path = os.getenv('HOME')+'/Bohca'
 class SelectPath:
         def __init__(self,ui):
                 self.ui = ui
+                ui.lineEdit.setText(default_path)
 
         def path(self):
 
-		path = str(ui.lineEdit.text())
-		ui.lineEdit.clear()
-		if path == "":
-                	if sys.platform == 'linux2':
-                        	file_path = default_path
-                        	if os.path.isdir(file_path):
-                                	subprocess.call(["xdg-open", file_path])
-                        	else:
-                                	os.mkdir(file_path)
-                                	subprocess.call(["xdg-open", file_path])
-                	else:
-                        	os.startfile(file_path)
-		else:
-			if sys.platform == 'linux2':
+                path = str(ui.lineEdit.text())
+                ui.lineEdit.clear()
+                if path == "":
+                        if sys.platform == 'linux2':
+                                file_path = default_path
+                                if os.path.isdir(file_path):
+                                        subprocess.call(["xdg-open", file_path])
+                                else:
+                                        os.mkdir(file_path)
+                                        subprocess.call(["xdg-open", file_path])
+                        else:
+                                os.startfile(file_path)
+                else:
+                        if sys.platform == 'linux2':
                                 file_path = path
                                 if os.path.isdir(file_path):
                                         subprocess.call(["xdg-open", file_path])
@@ -46,10 +47,11 @@ class SelectPath:
                         else:
                                 os.startfile(file_path)
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(602, 325)
+        MainWindow.resize(602, 339)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.pushButton = QtGui.QPushButton(self.centralwidget)
@@ -64,14 +66,8 @@ class Ui_MainWindow(object):
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8("icons/gif_47_023.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon1)
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(440, 180, 98, 27))
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("icons/gif_47_054.gif")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_3.setIcon(icon2)
-        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
         self.label = QtGui.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(150, 130, 121, 31))
+        self.label.setGeometry(QtCore.QRect(180, 130, 91, 31))
         self.label.setObjectName(_fromUtf8("label"))
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(280, 130, 271, 27))
@@ -100,15 +96,22 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 	self.SelectPath = SelectPath(self)
+        QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.click)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.close)
-        QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.SelectPath.path)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.SelectPath.path)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "Next ->", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_3.setText(QtGui.QApplication.translate("MainWindow", "Gözat", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MainWindow", "CURRENT PATH:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">Current Path:</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Welcome to Bohca", None, QtGui.QApplication.UnicodeUTF8))
 
+app = QtGui.QApplication(sys.argv)
+window = QtGui.QMainWindow()
+ui = Ui_MainWindow()
+ui.setupUi(window)
+
+window.show()
+sys.exit(app.exec_())
