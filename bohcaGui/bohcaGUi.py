@@ -2,9 +2,11 @@ import sys, os
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QSystemTrayIcon
 import subprocess
+from File_Notify import *
+from FileTranslate.handler import *
 
-project_path = os.getenv('HOME')+'/Bohca'
-icon_path= project_path + "/icons/Flock_icon.png"
+project_path = os.getenv('HOME')+'/bohca'
+icon_path="/icons/Flock_icon.png"
 
 
 
@@ -45,15 +47,17 @@ def main():
     #uygulama icin widget olusturma
     app = QtGui.QApplication(sys.argv)
     app_widget = QtGui.QWidget()
-
+    
 
     #trayicona bir simge verme
     trayIcon = SystemTrayIcon(QtGui.QIcon(icon_path),app_widget)
     trayIcon.show() 
-    print "a0" 
+    file = "/home/mehtap/bohca/bohcaGui/File_Notify.py" 
+    subprocess.call(["python",file]) 
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
      main()
+
 
 
