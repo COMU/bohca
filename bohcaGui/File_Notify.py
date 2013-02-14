@@ -77,7 +77,7 @@ class MyEventHandler(FileSystemEventHandler):
 def main():
   logging.basicConfig(level=logging.DEBUG)
  
-  path=os.getenv('HOME')+"/BOHCA/bohca"
+  path=os.getenv('HOME')+"/bohca"
   event_handler = MyEventHandler()
   observer = Observer()
   observer.schedule(event_handler, path, recursive=True)
