@@ -48,7 +48,7 @@ class SelectPath:
                                 os.startfile(file_path)
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtGui.QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(602, 339)
