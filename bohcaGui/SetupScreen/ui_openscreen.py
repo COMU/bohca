@@ -17,7 +17,7 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 default_path = os.getenv('HOME')+'/Bohca'
-
+                                      
 class Ui_MainWindow(QtGui.QMainWindow):
    
          
@@ -115,18 +115,31 @@ class Ui_MainWindow(QtGui.QMainWindow):
 						# dosyaya kullanıcı adı ve parolası eklencek
 					file_user.write(user_name + "&" + user_password)
 					file_user.close()  	
-					file_name = os.getenv('HOME') + "/bohca/bohcaGui/SetupScreen/ui_openscreen.py"
-					if subprocess.call(["python --first-time",file_name]): # HATALI bu kisim duzeltilmeli	
-                				self.new_open()
-                				self.close()
-					else:
-						ui.label_5.setText("<html><head/><body><p><span style=\" color:#ff0000;\">  You had done setup Bohca !</span></p></body></html>")
+					
+		                        file_path = os.getenv('HOME')+'/bohca/bohcaGui/SetupScreen/install.py' 	
+                                        file_open = open(file_path,"r")
+                                        install = file_open.readlines()
+                                        for line in install:
+                                             if  line[0] == '0' :
+  		                                  
+                                                  #print line
+                				  self.new_open()
+                				  self.close()
+                                                  file_open.close()
+					     else:
+						  ui.label_5.setText("<html><head/><body><p><span style=\" color:#ff0000;\">  You had done setup Bohca !</span></p></body></html>")           
+                                                  #self.close()
+                                                  file_open.close()
+                                                  
+                                                  #tray_file = "/home/mehtap/bohca/bohcaGui/systemTray.py"
+                                                  #subprocess.call(["python",tray_file])
 	def new_open(self):
-        	self.new = Ui_MainWindow2()
-                self.new.show()                  
+       
+                self.new = Ui_MainWindow2()
 
-        
- 
+                self.new.show()                  
+                
+                 
 
 
 
@@ -218,8 +231,16 @@ class Ui_MainWindow2(QtGui.QMainWindow):
                                         os.mkdir(file_path)
                                         subprocess.call(["xdg-open", file_path])
                         else:
-                                os.startfile(file_path)
+                                os.startfile(file_path) 	
+                file_path = os.getenv('HOME')+'/bohca/bohcaGui/SetupScreen/install.py'
 
+                file_open = open(file_path,"w")
+
+                file_open.writelines("1")
+                file_open.close()
+        
+                file = "/home/mehtap/bohca/bohcaGui/systemTray.py"
+                subprocess.call(["python",file]) 
 
 app = QtGui.QApplication(sys.argv)
 ui = Ui_MainWindow()
