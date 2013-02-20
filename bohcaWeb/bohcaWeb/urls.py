@@ -5,6 +5,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^','auth.views.login_user'),
+
     # Examples:
     # url(r'^$', 'bohcaWeb.views.home', name='home'),
     # url(r'^bohcaWeb/', include('bohcaWeb.foo.urls')),
@@ -14,6 +16,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    (r'^login/$','auth.views.login_user'),
+    #(r'^login/$','auth.views.login_user'),
 
 )

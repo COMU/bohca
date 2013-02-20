@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
 
 def login_user(request):
-    state = "Please log in below..."
+    state = "Bohcaya kayit olunuz..."
     username = password = ''
     if request.POST:
         username = request.POST.get('username')
@@ -20,3 +20,5 @@ def login_user(request):
             state = "Your username and/or password were incorrect."
 
     return render_to_response('auth.html',{'state':state, 'username': username})
+
+
