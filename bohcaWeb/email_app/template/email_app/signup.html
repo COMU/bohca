@@ -1,0 +1,22 @@
+{% include "include/header.html" %}
+  <div id = "header">
+      header
+    </div>
+    
+    <div id="main" role="main">
+      <center>
+        <form enctype="multipart/form-data" action={% url email_app.views.signup %} method="post" id="signupForm" >
+          {{ field.errors }}
+          <table>
+            {{ form.as_table }}
+          </table>
+          <p><input type="submit" value="Join!" /></p>
+      </form>
+      </center>
+    </div>
+    
+    <div id = "footer">
+      footer
+    </div>
+{% include "include/footer.html" %}
+
